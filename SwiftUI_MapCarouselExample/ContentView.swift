@@ -6,16 +6,28 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+    @State private var showView: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                Button("Show View") {
+                    showView.toggle()
+                }
+            }
+            .navigationTitle("Map Carousel")
         }
-        .padding()
+        .fullScreenCover(isPresented: $showView) {
+            CustomMapView(
+                userRegion: .applePark,
+                userCoordinates: MKCoordinateRegion.applePark.center,
+                //lookupText: "Starbucks",
+                lookupText: "喫茶店",
+                limit: 5
+            )
+        }
     }
 }
 
